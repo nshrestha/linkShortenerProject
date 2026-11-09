@@ -1,4 +1,4 @@
-# Agent Instructions for Link Shortner projecs
+# Agent Instructions for Link Shortner projects
 
 This document provides comprehansive guidelines for AI agents and LLM working on this project. These instructions ensure consistency, quality, and adherence to project standards. 
 
