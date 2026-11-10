@@ -55,9 +55,6 @@ export default function Home() {
             <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
               <Button size="lg">Get started <span aria-hidden="true">↗</span></Button>
             </SignUpButton>
-            <Button variant="outline" size="lg" nativeButton={false} render={<a href="#features" />}>
-              Explore features
-            </Button>
           </div>
           <p className="mt-5 text-xs leading-5 text-muted-foreground">
             Link tools are currently in development.
