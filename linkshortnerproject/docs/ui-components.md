@@ -65,13 +65,13 @@ export default function Page() {
 }
 ```
 
-This project uses the `base-lyra` style (Base UI). To render a component as another element (e.g. a link), use the `render` prop, not `asChild`:
+This project uses the `base-lyra` style (Base UI). To render a component as another element (e.g. a link), use the `render` prop, not `asChild`. For a Button rendered as a link, set `nativeButton={false}` and retain link semantics with `role="link"`:
 
 ```tsx
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-<Button render={<Link href="/dashboard" />}>Dashboard</Button>
+<Button nativeButton={false} role="link" render={<Link href="/dashboard" />}>Dashboard</Button>
 ```
 
 Icons come from Phosphor (`@phosphor-icons/react`).

@@ -45,7 +45,7 @@ This is a link shortner application built with modrn web technologies. The appli
 # Technology Stack
 
 ### Core Technologies
-- **Framework:** Next.js 16.0.10 (App Router)
+- **Framework:** Next.js 16.4.4 (App Router)
 - **Runtime:** React 19.2.1
 - **Language:** TypeScript 5.x
 - **Database:** PostgreSQL via @neondatabase/serverless
@@ -103,11 +103,15 @@ This is a link shortner application built with modrn web technologies. The appli
 - Add '"use client"' directive only when needed
 - Follow Next.js 16.x file conventions (page.tsx, layout.tsx, etc.)
 
-2. **Metadata**
+2. **Proxy Convention (Important)**
+- NEVER create or use `middleware.ts` for request interception or route protection. This project uses Next.js 16.4.4, where the `middleware.ts` convention is deprecated.
+- Use `proxy.ts` instead, following the existing project implementation.
+
+3. **Metadata**
 - Export metadata objects for SEO
 - Use generateMetadata for dynamic pages
 
-3. **Performance**
+4. **Performance**
 - Use dynamic imports for large components
 - Implement proper loading states
 - Optimize images with next/image
@@ -130,7 +134,7 @@ This is a link shortner application built with modrn web technologies. The appli
 1. **Clerk Integration**
 - Wrap app with CLerkProvider in root layout
 - Use Clerk hooks for auth state
-- Protect routes with Clerk middleware
+- Protect routes with Clerk in `proxy.ts`
 - Use userId from auth() for database associations
 
 2. **Authorization**
