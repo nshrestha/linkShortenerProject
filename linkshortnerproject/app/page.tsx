@@ -45,7 +45,7 @@ export default function Home() {
             A little link goes a long way
           </p>
           <h1 className="max-w-2xl font-sans text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-            Make more of every link.
+            Shorten Your Links, Amplify Your Reach
           </h1>
           <p className="mt-6 max-w-lg font-sans text-lg leading-8 text-muted-foreground">
             A simpler home for the links you share. Shorten your URLs, keep
