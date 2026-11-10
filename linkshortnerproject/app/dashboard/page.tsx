@@ -3,7 +3,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,8 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -24,66 +21,30 @@ import {
 } from "@/components/ui/table";
 import { getLinksForUser } from "@/data/links";
 
-import { createLinkAction, deleteLinkAction } from "./actions";
+import { CreateLinkDialog } from "./create-link-dialog";
+import { DeleteLinkDialog, EditLinkDialog } from "./link-row-actions";
 
-const errorMessages: Record<string, string> = {
-  "invalid-url": "Enter a valid http:// or https:// URL.",
-  "create-failed": "We couldn't create your link. Please try again.",
-};
-
-async function DashboardContent({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
+async function DashboardContent() {
   const { userId } = await auth();
   if (!userId) redirect("/");
 
-  const [{ error }, links] = await Promise.all([
-    searchParams,
-    getLinksForUser(userId),
-  ]);
-  const errorMessage = error ? errorMessages[error] : undefined;
+  const links = await getLinksForUser(userId);
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col gap-6 p-6">
       <Card>
         <CardHeader>
-          <CardTitle>Shorten a link</CardTitle>
-          <CardDescription>
-            Paste a long URL to get a short link you can share.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          <form action={createLinkAction} className="flex items-end gap-2">
-            <div className="flex flex-1 flex-col gap-2">
-              <Label htmlFor="url">Destination URL</Label>
-              <Input
-                id="url"
-                name="url"
-                type="url"
-                placeholder="https://example.com/a-very-long-link"
-                required
-              />
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <CardTitle>Your links</CardTitle>
+              <CardDescription>
+                {links.length === 0
+                  ? "You haven't created any links yet."
+                  : `${links.length} ${links.length === 1 ? "link" : "links"}`}
+              </CardDescription>
             </div>
-            <Button type="submit">Shorten</Button>
-          </form>
-          {errorMessage && (
-            <Alert variant="destructive">
-              <AlertDescription>{errorMessage}</AlertDescription>
-            </Alert>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Your links</CardTitle>
-          <CardDescription>
-            {links.length === 0
-              ? "You haven't created any links yet."
-              : `${links.length} ${links.length === 1 ? "link" : "links"}`}
-          </CardDescription>
+            <CreateLinkDialog />
+          </div>
         </CardHeader>
         {links.length > 0 && (
           <CardContent>
@@ -122,12 +83,17 @@ async function DashboardContent({
                       {link.createdAt.toLocaleDateString("en-US")}
                     </TableCell>
                     <TableCell className="text-right">
-                      <form action={deleteLinkAction}>
-                        <Input type="hidden" name="id" value={link.id} />
-                        <Button type="submit" variant="destructive" size="sm">
-                          Delete
-                        </Button>
-                      </form>
+                      <div className="flex justify-end gap-2">
+                        <EditLinkDialog
+                          id={link.id}
+                          shortCode={link.shortCode}
+                          url={link.url}
+                        />
+                        <DeleteLinkDialog
+                          id={link.id}
+                          shortCode={link.shortCode}
+                        />
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -140,14 +106,10 @@ async function DashboardContent({
   );
 }
 
-export default function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
+export default function DashboardPage() {
   return (
     <Suspense>
-      <DashboardContent searchParams={searchParams} />
+      <DashboardContent />
     </Suspense>
   );
 }

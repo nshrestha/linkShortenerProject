@@ -8,23 +8,6 @@ This document provides comprehansive guidelines for AI agents and LLM working on
 3. [Coding Standards](#coding-standards)
 4. [Documentation](#documentation)
 
-## CRITICAL: READ THE DOCS BEFORE WRITING ANY CODE
-
-**This is the single most important rule in this document.**
-
-You MUST ALWAYS read the relevant individual instruction files in the `/docs` directory BEFORE generating ANY code. No exceptions.
-
-- Do NOT write, edit, or suggest code until you have read every `/docs` file relevant to the task.
-- Do NOT rely on assumptions, memory, or general knowledge in place of these files. The `/docs` files override defaults and take precedence over your own preferences.
-- If a task touches multiple areas (e.g. authentication and UI), read ALL of the relevant files.
-- If you are unsure whether a file is relevant, read it.
-- Code generated without first reading the relevant `/docs` files is considered incorrect and must be redone.
-
-For detailed guidelines on specific topics, refer to the modular documentation in the `/docs` directory:
-
-- [docs/authentication.md](docs/authentication.md) - Authentication (Clerk only), protected `/dashboard`, homepage redirect, modal sign-in/sign-up
-- [docs/ui-components.md](docs/ui-components.md) - UI components (shadcn/ui only, no custom components)
-
 
 # Project Overview 
 
@@ -207,8 +190,6 @@ Required variables (add to '.env.local'):
 <!-- BEGIN:nextjs-agent-rules -->
 
 ## This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 

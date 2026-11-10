@@ -1,3 +1,7 @@
+---
+description: UI rules - use shadcn/ui components only.
+applyTo: "**"
+---
 # UI Components (shadcn/ui)
 
 ## Rule

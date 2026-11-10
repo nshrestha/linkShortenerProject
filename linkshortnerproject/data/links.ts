@@ -45,10 +45,40 @@ export async function getLinksForUser(userId: string): Promise<Link[]> {
     .orderBy(desc(linksTable.createdAt));
 }
 
-export async function deleteLinkForUser(id: number, userId: string) {
-  await db
+export async function updateLinkForUser(
+  id: number,
+  userId: string,
+  url: string,
+): Promise<Link | null> {
+  const [link] = await db
+    .update(linksTable)
+    .set({ url })
+    .where(and(eq(linksTable.id, id), eq(linksTable.clerkUserId, userId)))
+    .returning();
+  return link ?? null;
+}
+
+export async function getLinkForUser(
+  id: number,
+  userId: string,
+): Promise<Link | null> {
+  const [link] = await db
+    .select()
+    .from(linksTable)
+    .where(and(eq(linksTable.id, id), eq(linksTable.clerkUserId, userId)))
+    .limit(1);
+  return link ?? null;
+}
+
+export async function deleteLinkForUser(
+  id: number,
+  userId: string,
+): Promise<boolean> {
+  const deleted = await db
     .delete(linksTable)
-    .where(and(eq(linksTable.id, id), eq(linksTable.clerkUserId, userId)));
+    .where(and(eq(linksTable.id, id), eq(linksTable.clerkUserId, userId)))
+    .returning({ id: linksTable.id });
+  return deleted.length > 0;
 }
 
 export async function getUrlByShortCode(shortCode: string) {

@@ -1,3 +1,7 @@
+---
+description: Authentication rules (Clerk only, modal sign-in, protected /dashboard).
+applyTo: "**"
+---
 # Authentication
 
 All authentication in this app is handled by Clerk (`@clerk/nextjs`). **No other auth method may be used.** Do not add custom auth, password handling, session/JWT logic, NextAuth, Auth.js, or any other provider.
